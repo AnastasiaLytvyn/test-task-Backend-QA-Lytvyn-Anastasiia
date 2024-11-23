@@ -117,6 +117,7 @@ For example, using the following request body
 ##### Expected result 2.
 Status code: **400 Bad Request** <br />
 Error message: `"Missing required fields: photoUrls"`.
+
 ---
 
 ## Test Case 3: Validation of invalid data type for parameter "name" 
@@ -154,6 +155,7 @@ For example, using the following request body
 ##### Expected result 1.
 Status code: **400 Bad Request** <br />
 Error message: `"Invalid data type for name: expected string"`.
+
 ---
 
 ## Test Case 4: Validation of 256 symbols length for parameter "name"
@@ -230,6 +232,7 @@ For example, using the following request body
 ##### Expected result 1.
 Status code: **200 OK** <br />
 Response time is less than `1000ms`.
+
 ---
 
 ## Test Case 6: Send GET request for /pet endpoint
