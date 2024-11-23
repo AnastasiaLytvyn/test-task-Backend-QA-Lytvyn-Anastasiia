@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "36fb4280-7724-41a0-a7eb-4d0ee1e1512a",
+		"name": "Petstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20469835"
+	},
+	"item": [
+		{
+			"name": "Create Pet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1s\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"const schema = {\r",
+							"    type: \"object\",\r",
+							"    properties: {\r",
+							"        id: { type: \"number\" },\r",
+							"        category: {\r",
+							"            type: \"object\",\r",
+							"            properties: {\r",
+							"                id: { type: \"number\" },\r",
+							"                name: { type: \"string\" }\r",
+							"            }\r",
+							"        },\r",
+							"        name: { type: \"string\" },\r",
+							"        photoUrls: {\r",
+							"            type: \"array\",\r",
+							"            items: { type: \"string\" }\r",
+							"        },\r",
+							"        tags: {\r",
+							"            type: \"array\",\r",
+							"            items: {\r",
+							"                type: \"object\",\r",
+							"                properties: {\r",
+							"                    id: { type: \"number\" },\r",
+							"                    name: { type: \"string\" }\r",
+							"                }\r",
+							"            }\r",
+							"        },\r",
+							"        status: { \r",
+							"            type: \"string\",\r",
+							"            enum: [\"available\", \"pending\", \"sold\"]\r",
+							"         }\r",
+							"    },\r",
+							"    required: [\"name\", \"photoUrls\"]\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Response matches the schema\", function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set('petId', parseInt(pm.response.json().id))\r",
+							"pm.environment.set('petName', pm.response.json().name)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{$randomInt}}\",\r\n    \"category\": {\r\n        \"id\": \"{{$randomInt}}\",\r\n        \"name\": \"{{$randomLoremWord}}\"\r\n    },\r\n    \"name\": \"{{$randomFirstName}}\",\r\n    \"photoUrls\": [\r\n        \"{{$randomAnimalsImage}}\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"{{$randomInt}}\",\r\n            \"name\": \"{{$randomAbbreviation}}\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/pet",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"pet"
+					]
+				},
+				"description": "Add a new pet to the store"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pet by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1s\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/pet/{{petId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}"
+					]
+				},
+				"description": "Find pet by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Existing Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1s\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"const schema = {\r",
+							"    type: \"object\",\r",
+							"    properties: {\r",
+							"        id: { type: \"number\" },\r",
+							"        category: {\r",
+							"            type: \"object\",\r",
+							"            properties: {\r",
+							"                id: { type: \"number\" },\r",
+							"                name: { type: \"string\" }\r",
+							"            }\r",
+							"        },\r",
+							"        name: { type: \"string\" },\r",
+							"        photoUrls: {\r",
+							"            type: \"array\",\r",
+							"            items: { type: \"string\" }\r",
+							"        },\r",
+							"        tags: {\r",
+							"            type: \"array\",\r",
+							"            items: {\r",
+							"                type: \"object\",\r",
+							"                properties: {\r",
+							"                    id: { type: \"number\" },\r",
+							"                    name: { type: \"string\" }\r",
+							"                }\r",
+							"            }\r",
+							"        },\r",
+							"        status: { \r",
+							"            type: \"string\",\r",
+							"            enum: [\"available\", \"pending\", \"sold\"]\r",
+							"         }\r",
+							"    },\r",
+							"    required: [\"name\", \"photoUrls\"]\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Response matches the schema\", function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{petId}}\",\r\n    \"category\": {\r\n        \"id\": \"{{$randomInt}}\",\r\n        \"name\": \"{{$randomLoremWord}}\"\r\n    },\r\n    \"name\": \"{{petName}} updated\",\r\n    \"photoUrls\": [\r\n        \"{{$randomAnimalsImage}}\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": \"{{$randomInt}}\",\r\n            \"name\": \"{{$randomAbbreviation}}\"\r\n        }\r\n    ],\r\n    \"status\": \"sold\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/pet",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"pet"
+					]
+				},
+				"description": "Update an existing pet"
+			},
+			"response": []
+		},
+		{
+			"name": "Check Updated Pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1s\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test('Pet is updated', function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get('petName') + ' updated');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/pet/{{petId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"pet",
+						"{{petId}}"
+					]
+				},
+				"description": "Check pet updating"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "https://petstore.swagger.io/v2",
+			"type": "string"
+		}
+	]
+}
